@@ -1,33 +1,31 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// API URL
+
 const API_URL =
   "https://66ffbce64da5bd237551bffe.mockapi.io/api/hw-07/contacts";
 
-// Async actions
 export const fetchContacts = createAsyncThunk("contacts/fetchAll", async () => {
   const response = await axios.get(API_URL);
 
-  // Map 'phone' field from API to 'number' for the frontend
   const contactsWithNumber = response.data.map((contact) => ({
     ...contact,
-    number: contact.phone // Map 'phone' to 'number'
+    number: contact.phone
   }));
 
-  console.log("Contacts from server:", contactsWithNumber); // Sprawdź dane w konsoli
+  console.log("Contacts from server:", contactsWithNumber);
   return contactsWithNumber;
 });
 
 export const addContact = createAsyncThunk(
   "contacts/addContact",
   async (newContact) => {
-    // Ensure that the app sends 'phone' instead of 'number'
+
     const response = await axios.post(API_URL, {
       ...newContact,
-      phone: newContact.number // Send 'number' as 'phone'
+      phone: newContact.number
     });
-    return { ...response.data, number: response.data.phone }; // Map 'phone' back to 'number'
+    return { ...response.data, number: response.data.phone };
   }
 );
 

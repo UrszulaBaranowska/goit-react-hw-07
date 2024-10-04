@@ -13,18 +13,15 @@ const ContactList = () => {
   } = useSelector((state) => state.contacts);
   const filter = useSelector((state) => state.filters.name);
 
-  // Fetch contacts on component mount
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  // Debugging - Log the fetched contacts
   console.log("Contacts in the component:", contacts);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  // Apply filter to the contacts
   const filteredContacts = contacts.filter((contact) =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
